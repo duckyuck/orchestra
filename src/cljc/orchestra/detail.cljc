@@ -111,12 +111,7 @@
   [arity]
   (let [args (get-in arity [:args :args])
         varargs (get-in arity [:args :varargs])
-        arg-specs (mapv (fn [{:keys [spec]}]
-                          ; We automatically wrap non-vararg specs in (s/spec).
-                          ; This ensure no regex specs flatten to apply to the
-                          ; fdef's outer :args s/cat.
-                          (list (spec-fn ::spec) spec))
-                        args)
+        arg-specs (mapv (fn [{:keys [spec]}] spec) args)
         arity-specs (if-some [varargs (get-in arity [:args :varargs])]
                       (conj arg-specs (:spec varargs))
                       arg-specs)]
